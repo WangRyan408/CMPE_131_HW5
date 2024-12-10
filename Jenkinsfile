@@ -1,10 +1,6 @@
 pipeline {
     agent any
     
-    environment {
-        DB_URL = 'mysql+pymysql://usr:pwd@host:/db'
-    }
-    
     stages {
        stage('Setup Python') {
             steps {

@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh 'python -m venv venv'
                 sh 'source venv/bin/activate'
                 sh 'pip install -r requirements.txt'
             }
@@ -15,6 +16,7 @@ pipeline {
         
         stage('Test') {
             steps {
+                sh 'python -m venv venv'
                 sh 'source venv/bin/activate'
                 sh 'pytest tests/ --junitxml=test-results.xml'
             }
@@ -22,6 +24,7 @@ pipeline {
         
         stage('Deploy') {
             steps {
+                sh 'python -m venv venv'
                 sh 'source venv/bin/activate'
                 sh 'python deploy.py'
             }

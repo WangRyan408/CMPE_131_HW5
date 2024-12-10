@@ -17,16 +17,11 @@ pipeline {
             steps {
                     sh '''
                      . .venv/bin/activate
-                    python -m pytest
-                    pytest tests/ --junitxml=test-results.xml
+                    python -m pytest -v test_weather_station.py
+                    pytest --junitxml=test-results.xml
                     '''
             }
         }
     }
     
-    post {
-        always {
-            junit 'test-results.xml'
-        }
-    }
 }

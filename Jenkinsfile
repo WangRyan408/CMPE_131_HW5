@@ -6,26 +6,29 @@ pipeline {
     }
     
     stages {
+        stage('Create Virtual Environment') {
+            steps {
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                '''
+            }
+        }
+        
         stage('Build') {
             steps {
-                sh 'python -m venv venv'
-                sh 'source venv/bin/activate'
                 sh 'pip install -r requirements.txt'
             }
         }
         
         stage('Test') {
             steps {
-                sh 'python -m venv venv'
-                sh 'source venv/bin/activate'
                 sh 'pytest tests/ --junitxml=test-results.xml'
             }
         }
         
         stage('Deploy') {
             steps {
-                sh 'python -m venv venv'
-                sh 'source venv/bin/activate'
                 sh 'python deploy.py'
             }
         }

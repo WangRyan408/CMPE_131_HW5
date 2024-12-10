@@ -10,8 +10,8 @@ pipeline {
             steps {
                 withPythonEnv('Python3') {
                     sh '''
-                        python -m venv .venv
-                        . .venv/bin/activate
+                        python -m venv venv
+                        . venv/bin/activate
                         pip install -r requirements.txt
                     '''
                 }

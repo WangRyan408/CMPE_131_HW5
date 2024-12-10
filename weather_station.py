@@ -48,13 +48,19 @@ class WeatherStation:
         start_time = end_time - timedelta(hours=timeframe_hours)
 
         cursor.execute('''SELECT temperature, humidity, pressure FROM weather_data 
-                          WHERE timestamp BETWEEN ? AND ?''', 
-                          (start_time, end_time))
+                        WHERE timestamp BETWEEN ? AND ?''', 
+                        (start_time, end_time))
         rows = cursor.fetchall()
         conn.close()
 
         if not rows:
-            return "No data available for the specified timeframe."
+            return {
+                'average_temperature': 0,
+                'average_humidity': 0,
+                'average_pressure': 0,
+                'max_temperature': 0,
+                'min_temperature': 0
+            }
 
         temperatures = [row[0] for row in rows]
         humidities = [row[1] for row in rows]
@@ -69,4 +75,3 @@ class WeatherStation:
         }
 
         return analysis
-    

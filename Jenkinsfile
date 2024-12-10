@@ -6,31 +6,24 @@ pipeline {
     }
     
     stages {
-       stage('Setup Python/Build') {
+       stage('Setup Python') {
             steps {
-                withPythonEnv('Python3') {
-                    sh '''
-                        python -m venv venv
-                        . venv/bin/activate
-                        pip install -r requirements.txt
-                    '''
-                }
+                sh '''
+                    python3 -m venv .venv
+                    . .venv/bin/activate
+                    python -m pip install --upgrade pip
+                    python -m pip install -r requirements.txt
+                '''
             }
         }
         
         stage('Test') {
             steps {
-                withPythonEnv('Python3') {
-                    sh 'pytest tests/ --junitxml=test-results.xml'
-                }
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                withPythonEnv('Python3') {
-                     sh 'python deploy.py'
-                }
+                    sh '''
+                     . .venv/bin/activate
+                    python -m pytest
+                    pytest tests/ --junitxml=test-results.xml
+                    '''
             }
         }
     }
